@@ -1,0 +1,52 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Dependency directories
+/pnpm-store/
+/.pnp
+.pnp.js
+
+# IDE files
+.vscode/
+.idea/
+
+# Logs and testing directories
+logs/
+coverage/
+.nyc_output/
+__tests__/
+test/
+
+# GraphQL
+generated/
+
+# PostgreSQL
+*.sql
+*.sql.gz
+*.dump
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Ignore API keys and secrets
+.env.*
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Editor-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# Miscellaneous
+node_modules.zip

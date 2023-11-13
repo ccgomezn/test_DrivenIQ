@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "4000:4000"
+    environment:
+      - DATABASE_URL=postgres://postgres:password@db:5432/drivenIQ
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=drivenIQ
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  migrate:
+    build: .
+    environment:
+      - DATABASE_URL=postgres://postgres:password@db:5432/drivenIQ
+    command: npx node-pg-migrate up
+    depends_on:
+      - db
+
+  db-test:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=drivenIQ_test
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+
+  test:
+    build: .
+    volumes:
+      - .:/app
+    environment:
+      - TEST_DATABASE_URL=postgres://postgres:password@db-test:5432/drivenIQ_test
+      - NODE_ENV=test
+    depends_on:
+      - db-test
+    command: npm run test
+  
+  migrate-test:
+    build: .
+    environment:
+      - DATABASE_URL=postgres://postgres:password@db-test:5432/drivenIQ_test
+    command: npx node-pg-migrate up
+    depends_on:
+      - db-test
+volumes:
+  postgres_data:
+  postgres_test_data:
